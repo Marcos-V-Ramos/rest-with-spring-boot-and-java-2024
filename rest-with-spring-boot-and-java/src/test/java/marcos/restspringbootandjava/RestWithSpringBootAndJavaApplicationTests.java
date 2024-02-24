@@ -1,4 +1,4 @@
-package br.com.marcos.restwithspringbootandjava;
+package marcos.restspringbootandjava;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

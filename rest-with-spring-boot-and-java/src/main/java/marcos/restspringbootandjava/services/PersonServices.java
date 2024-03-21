@@ -1,8 +1,10 @@
 package marcos.restspringbootandjava.services;
 
 import marcos.restspringbootandjava.data.vo.v1.PersonVO;
+import marcos.restspringbootandjava.data.vo.v2.PersonVOV2;
 import marcos.restspringbootandjava.exception.ResourceNotFoundException;
 import marcos.restspringbootandjava.mapper.DozerMapper;
+import marcos.restspringbootandjava.mapper.custom.PersonMapper;
 import marcos.restspringbootandjava.model.Person;
 import marcos.restspringbootandjava.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class PersonServices {
 
     @Autowired
     PersonRepository personRepository;
+
+    @Autowired
+    PersonMapper personMapper;
 
     public PersonVO findById(Long id) {
         logger.info("Finding one person!");
@@ -37,6 +42,14 @@ public class PersonServices {
         var personEntity = DozerMapper.parseObject(person, Person.class);
         var personVO = DozerMapper.parseObject(personRepository.save(personEntity), PersonVO.class);
         return personVO;
+    }
+
+    public PersonVOV2 createV2(PersonVOV2 personVO) {
+        logger.info("Creating one person with V2!");
+
+        var personEntity = personMapper.convertVOtoEntity(personVO);
+        var personVOV2 = personMapper.convertEntityToVO(personRepository.save(personEntity));
+        return personVOV2;
     }
 
     public PersonVO update(PersonVO person) {
